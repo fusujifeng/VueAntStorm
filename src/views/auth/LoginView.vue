@@ -59,6 +59,18 @@
           </a-button>
         </a-form-item>
         
+        <a-form-item>
+          <a-button
+            type="default"
+            size="large"
+            :loading="guestLoading"
+            class="guest-login-button"
+            @click="onGuestLogin"
+          >
+            游客访问
+          </a-button>
+        </a-form-item>
+        
         <div class="login-footer">
           还没有账号？ <router-link to="/register">立即注册</router-link>
         </div>
@@ -73,9 +85,12 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { Rule } from 'ant-design-vue/es/form'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const loading = ref(false)
+const guestLoading = ref(false)
 
 interface FormState {
   username: string
@@ -131,6 +146,52 @@ const onFinish = async (values: FormState) => {
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
+}
+
+const onGuestLogin = async () => {
+  guestLoading.value = true
+  
+  try {
+    // 模拟游客登录API调用
+    await new Promise(resolve => setTimeout(resolve, 800))
+    
+    // 使用认证 store 进行游客登录
+    const guestLoginResponse = {
+      token: 'guest-token-' + Date.now(),
+      refreshToken: 'guest-refresh-token-' + Date.now(),
+      user: {
+        id: 'guest-' + Date.now(),
+        username: 'guest',
+        nickname: '游客用户',
+        email: 'guest@example.com',
+        avatar: '',
+        roles: ['guest'],
+        permissions: ['dashboard:read', 'docs:read'],
+        permissionLevel: 1,
+        isActive: true,
+        lastLoginTime: Date.now(),
+        createdAt: Date.now(),
+        updatedAt: Date.now()
+      },
+      expiresIn: 24 * 60 * 60 * 1000 // 24小时
+    }
+    
+    await authStore.login({
+      email: 'guest',
+      password: 'guest'
+    })
+    
+    // 切换到游客角色
+    authStore.switchUserRole('guest')
+    
+    message.success('游客登录成功！')
+    router.push('/dashboard')
+  } catch (error) {
+    console.error('游客登录失败:', error)
+    message.error('游客登录失败，请重试！')
+  } finally {
+    guestLoading.value = false
+  }
 }
 </script>
 
@@ -195,6 +256,21 @@ const onFinishFailed = (errorInfo: any) => {
   height: 44px;
   font-size: 16px;
   font-weight: 500;
+}
+
+.guest-login-button {
+  width: 100%;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+  border-color: #d9d9d9;
+  color: #666;
+}
+
+.guest-login-button:hover {
+  border-color: #1890ff;
+  color: #1890ff;
 }
 
 .login-footer {
