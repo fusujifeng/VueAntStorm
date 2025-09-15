@@ -44,6 +44,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/components/ChartsView.vue')
       },
       {
+        path: 'businessInfo',
+        name: 'BusinessInfo',
+        component: () => import('../views/BusinessInfo.vue')
+      },
+      {
         path: 'docs',
         name: 'Docs',
         component: () => import('../views/DocsView.vue')
@@ -70,7 +75,7 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('token') // 简单的认证检查
-  
+
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
   } else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {

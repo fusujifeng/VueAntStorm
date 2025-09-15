@@ -14,7 +14,7 @@
         @click="handleMenuClick"
       />
     </a-layout-sider>
-    
+
     <a-layout>
       <!-- 顶部导航栏 -->
       <a-layout-header style="background: #fff; padding: 0; box-shadow: 0 1px 4px rgba(0,21,41,.08)">
@@ -36,7 +36,7 @@
               </a-breadcrumb-item>
             </a-breadcrumb>
           </div>
-          
+
           <div style="display: flex; align-items: center; gap: 16px">
             <a-dropdown>
               <template #overlay>
@@ -63,12 +63,12 @@
           </div>
         </div>
       </a-layout-header>
-      
+
       <!-- 中间内容区域 -->
       <a-layout-content style="margin: 24px 16px; padding: 24px; background: #fff; min-height: 280px">
         <router-view />
       </a-layout-content>
-      
+
       <!-- 底部 -->
       <a-layout-footer style="text-align: center">
         VueAntStorm ©2024 Created by Your Team
@@ -129,6 +129,11 @@ const menuItems: MenuProps['items'] = [
         key: 'charts',
         label: '图表组件',
         title: '图表组件'
+      },
+      {
+        key: 'businessInfo',
+        label: '商业信息',
+        title: '商业信息'
       }
     ]
   },
@@ -144,7 +149,7 @@ const menuItems: MenuProps['items'] = [
 const breadcrumbItems = computed(() => {
   const pathArray = route.path.split('/').filter(item => item)
   const breadcrumbs = [{ title: '首页', path: '/' }]
-  
+
   let currentPath = ''
   pathArray.forEach(path => {
     currentPath += `/${path}`
@@ -153,7 +158,7 @@ const breadcrumbItems = computed(() => {
       breadcrumbs.push({ title: menuItem.label || menuItem.title, path: currentPath })
     }
   })
-  
+
   return breadcrumbs
 })
 
@@ -175,16 +180,17 @@ function findMenuItemByKey(key: string): any {
 // 菜单点击处理
 const handleMenuClick = ({ key }: { key: string }) => {
   selectedKeys.value = [key]
-  
+
   // 根据菜单key导航到对应路由
   const routeMap: Record<string, string> = {
     dashboard: '/dashboard',
     table: '/components/table',
     form: '/components/form',
     charts: '/components/charts',
-    docs: '/docs'
+    docs: '/docs',
+    businessInfo: '/businessInfo',
   }
-  
+
   const targetRoute = routeMap[key]
   if (targetRoute && route.path !== targetRoute) {
     router.push(targetRoute)
