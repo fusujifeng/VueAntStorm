@@ -89,7 +89,8 @@ import {
   DashboardOutlined,
   TableOutlined,
   FormOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  DesktopOutlined
 } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 
@@ -136,6 +137,12 @@ const menuItems: MenuProps['items'] = [
         title: '商业信息'
       }
     ]
+  },
+  {
+    key: 'deviceInfo',
+    icon: () => h(DesktopOutlined),
+    label: '设备信息',
+    title: '设备信息'
   },
   {
     key: 'docs',
@@ -189,6 +196,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
     charts: '/components/charts',
     docs: '/docs',
     businessInfo: '/businessInfo',
+    deviceInfo: '/deviceInfo',
   }
 
   const targetRoute = routeMap[key]
