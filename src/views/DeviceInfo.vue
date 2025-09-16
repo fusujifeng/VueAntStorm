@@ -1,62 +1,266 @@
 <template>
   <div class="device-info">
     <!-- 设备卡片区域 -->
-    <a-row :gutter="16" style="margin-bottom: 24px;">
-      <a-col :span="12">
-        <a-card class="device-card" :bordered="false" title="设备总体情况（组串式）">
-          <template #extra>
-            <a-button type="link" @click="handleEditDevice('string')">
-              编辑
-            </a-button>
-          </template>
-          <div class="device-card-content">
-            <div class="device-icon">
-              <desktop-outlined style="font-size: 32px; color: #1890ff;" />
-            </div>
-            <div class="device-info-content">
-              <h3>储能系统ES900-XXX</h3>
-              <p class="device-subtitle">储能系统 | 运行 | 一体化储能 | 运行状态</p>
-              <div class="device-details">
-                <span>容量: 500 - 额定电压: 500 | 额定电流: 500</span>
-              </div>
-            </div>
-            <div class="device-status">
-              <a-tag color="green">运行</a-tag>
-            </div>
-          </div>
-        </a-card>
-      </a-col>
-      <a-col :span="12">
-        <a-card class="device-card" :bordered="false" title="设备总体情况（集中式）">
-          <template #extra>
-            <a-button type="link" @click="handleEditDevice('centralized')">
-              编辑
-            </a-button>
-          </template>
-          <div class="device-card-content">
-            <div class="device-icon">
-              <desktop-outlined style="font-size: 32px; color: #1890ff;" />
-            </div>
-            <div class="device-info-content">
-              <h3>储能系统ES900-XXX</h3>
-              <p class="device-subtitle">储能系统 | 运行 | 一体化储能 | 运行状态</p>
-              <div class="device-details">
-                <span>容量: 500 - 额定电压: 500 | 额定电流: 500</span>
-              </div>
-            </div>
-            <div class="device-status">
-              <a-tag color="green">运行</a-tag>
-            </div>
-          </div>
-        </a-card>
-      </a-col>
-    </a-row>
+    <a-flex vertical gap="8">
+      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('string')}" :edit-button-text="$t('edit')">
+        <template #content>
+          <a-flex justify="start" :gap="48" style="overflow-x: scroll">
+            <!--          参数-->
+            <a-flex align="center">
 
+              <a-avatar :src="deviceImg" shape="square" style="margin-right: 16px;" :size="80" />
+              <div class="  ">
+                <h3>组串式IES900-XXX</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#F1F4F7" style="font-size:12px; color: #0C172B;border: 1px solid #B1B7C7;border-radius: 4px">非标需求编码</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                  <span>储能系统</span>|
+                  <span>运行</span>|
+                  <span>一体化储能</span>|
+                  <span>运行状态</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+            <!--          通讯类型:Mod-->
+            <a-flex align="center" style="min-width: 500px">
+
+              <a-avatar :src="BMS_img" shape="square" style="margin-right: 16px;" :size="45" />
+
+              <div class="  ">
+                <h3>通讯类型：Modbus-RTU(485) / Modbus-TCP / IEC61850/IEC104</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#F1F9E6" style="font-size:12px; color: #67B100;border: 1px solid #BEE38A;border-radius: 4px">通讯卡软件版本: Modbus-RTU(485)V1.2.4</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                  <span>储能系统</span>|
+                  <span>运行</span>|
+                  <span>一体化储能</span>|
+                  <span>运行状态</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+            <!--          通讯类型:CAN-->
+            <a-flex align="center" class="device-card-content">
+
+              <a-avatar :src="EMS_img" shape="square" style="margin-right: 16px;" :size="45" />
+
+              <div class="  ">
+                <h3>通讯类型:CAN</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#F1F9E6" style="font-size:12px; color: #67B100;border: 1px solid #BEE38A;border-radius: 4px">DI类型：常开</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+          </a-flex>
+
+        </template>
+      </EditCard>
+      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('centralized')}" :edit-button-text="$t('edit')">
+        <template #content>
+          <a-flex justify="start" :gap="48" style="overflow-x: scroll">
+            <!--          参数-->
+            <a-flex align="center">
+
+              <a-avatar :src="deviceImg" shape="square" style="margin-right: 16px;" :size="80" />
+              <div style="height: 80px">
+                <h3>组串式IES900-XXX</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                  <a-tag color="#F1F4F7" style="font-size:12px; color: #0C172B;border: 1px solid #B1B7C7;border-radius: 4px">非标需求编码</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                  <span>储能系统</span>|
+                  <span>运行</span>|
+                  <span>一体化储能</span>|
+                  <span>运行状态</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+            <!--          通讯类型:Mod-->
+            <a-flex align="center" style="min-width: 500px">
+
+              <a-avatar :src="BMS_img" shape="square" style="margin-right: 16px;" :size="45" />
+
+              <div class="  ">
+                <h3>通讯类型：Modbus-RTU(485) / Modbus-TCP / IEC61850/IEC104</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#F1F9E6" style="font-size:12px; color: #67B100;border: 1px solid #BEE38A;border-radius: 4px">通讯卡软件版本: Modbus-RTU(485)V1.2.4</a-tag>
+                  <a-tag color="#DEF2FF" style="font-size:12px; color: #0099F2;border: 1px solid #74CEFF;border-radius: 4px">储能系统</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                  <span>储能系统</span>|
+                  <span>运行</span>|
+                  <span>一体化储能</span>|
+                  <span>运行状态</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+            <!--          通讯类型:CAN-->
+            <a-flex align="center" class="device-card-content">
+
+              <a-avatar :src="EMS_img" shape="square" style="margin-right: 16px;" :size="45" />
+
+              <div class="  ">
+                <h3>通讯类型:CAN</h3>
+                <a-flex gap="0.5" style="margin: 8px 0">
+                  <a-tag color="#F1F9E6" style="font-size:12px; color: #67B100;border: 1px solid #BEE38A;border-radius: 4px">DI类型：常开</a-tag>
+                </a-flex>
+                <a-flex class="device-details" gap="3">
+                  <span>储能系统</span>|
+                </a-flex>
+              </div>
+            </a-flex>
+          </a-flex>
+
+        </template>
+      </EditCard>
+      <!-- 设备列表区域 -->
+      <!--      <a-card title="设备列表" :bordered="false">-->
+      <!--        &lt;!&ndash; 搜索区域 &ndash;&gt;-->
+      <!--        <div class="search-section" style="margin-bottom: 16px;">-->
+      <!--          <a-row :gutter="16" align="middle">-->
+      <!--            <a-col :span="4">-->
+      <!--              <a-input v-model:value="searchForm.deviceName" placeholder="设备名称/设备编号/设备类型/设备型号" allow-clear />-->
+      <!--            </a-col>-->
+      <!--            <a-col :span="3">-->
+      <!--              <a-select v-model:value="searchForm.deviceType" placeholder="设备类型" allow-clear style="width: 100%">-->
+      <!--                <a-select-option value="储能系统">储能系统</a-select-option>-->
+      <!--                <a-select-option value="逆变器">逆变器</a-select-option>-->
+      <!--                <a-select-option value="电池组">电池组</a-select-option>-->
+      <!--              </a-select>-->
+      <!--            </a-col>-->
+      <!--            <a-col :span="2">-->
+      <!--              <a-button type="primary" @click="handleSearch">-->
+      <!--                搜索-->
+      <!--              </a-button>-->
+      <!--            </a-col>-->
+      <!--            <a-col :span="15" style="text-align: right;">-->
+      <!--              <a-space>-->
+      <!--                <a-button @click="handleExport">导出设备信息</a-button>-->
+      <!--                <a-button @click="handleImport">导入设备信息</a-button>-->
+      <!--                <a-button type="primary" @click="showAddModal = true">-->
+      <!--                  新增设备-->
+      <!--                </a-button>-->
+      <!--              </a-space>-->
+      <!--            </a-col>-->
+      <!--          </a-row>-->
+      <!--        </div>-->
+
+      <!--        &lt;!&ndash; 设备列表表格 &ndash;&gt;-->
+      <!--        <a-table :columns="columns" :data-source="deviceList" :pagination="pagination" :loading="loading" row-key="id"-->
+      <!--                 @change="handleTableChange" :scroll="{ x: 1200 }">-->
+      <!--          <template #bodyCell="{ column, record }">-->
+      <!--            <template v-if="column.key === 'status'">-->
+      <!--              <a-tag :color="getStatusColor(record.status)">-->
+      <!--                {{ record.status }}-->
+      <!--              </a-tag>-->
+      <!--            </template>-->
+      <!--            <template v-else-if="column.key === 'protocol'">-->
+      <!--              <a-space>-->
+      <!--                <a-tag v-for="protocol in record.protocols" :key="protocol" color="blue">-->
+      <!--                  {{ protocol }}-->
+      <!--                </a-tag>-->
+      <!--              </a-space>-->
+      <!--            </template>-->
+      <!--            <template v-else-if="column.key === 'action'">-->
+      <!--              <a-space>-->
+      <!--                <a-button type="link" size="small" @click="handleView(record)">-->
+      <!--                  详情-->
+      <!--                </a-button>-->
+      <!--                <a-button type="link" size="small" @click="handleEditRecord(record)">-->
+      <!--                  编辑-->
+      <!--                </a-button>-->
+      <!--              </a-space>-->
+      <!--            </template>-->
+      <!--          </template>-->
+      <!--        </a-table>-->
+      <!--      </a-card>-->
+      <AdvanceSearch
+        v-model="filterParams"
+        :filterOptions="filterOptions"
+        :filterSearch="filterSearch"
+        :reset="reset"
+      />
+      <my-table
+        :dataSource="dataSource"
+        :columns="columns"
+        class="flex-v-1 mgt8"
+        :scroll="{ x: '1160px', y: 'calc(100% - 48px)' }"
+        :pagination="false"
+      >
+        <template #emptyText>
+          <EmptyComp></EmptyComp>
+        </template>
+        <template #bodyCell="{ column, text, record }">
+          <template v-if="column?.dataIndex === 'code'">
+            <a-flex
+              justify="space-between"
+              wrap="nowrap"
+            >
+         <span
+           class="cellText link"
+           @click="goToDetail(record)"
+         >
+          {{ record.code }}
+         </span>
+              <a-tooltip
+                :title="
+           $t(
+            record.star === 2
+             ? 'followPlant'
+             : 'cancelFollowPlant'
+           )
+          "
+              >
+                <StarFilled
+                  :class="record.star === 1 && 'star'"
+                  @click="followPlant(record)"
+                />
+              </a-tooltip>
+            </a-flex>
+          </template>
+          <template v-if="column?.dataIndex === 'operation'">
+            <a-typography-link @click="goToDetail(record)">
+              {{ $t('detail') }}
+            </a-typography-link>
+            <a-typography-link
+              type="danger"
+              class="mgl8"
+              @click="detail(record.id)"
+            >
+              {{ $t('delete') }}
+            </a-typography-link>
+          </template>
+        </template>
+      </my-table>
+      <MyPagination
+        v-if="totalNumber > 0"
+        v-model:page="reqParams.page"
+        v-model:rows="reqParams.rows"
+        :total="totalNumber"
+      ></MyPagination>
+    </a-flex>
     <!-- 编辑设备弹窗 -->
     <a-modal v-model:open="editModalVisible" title="编辑设备信息" width="800px" @ok="handleEditSubmit"
-      @cancel="handleEditCancel">
+             @cancel="handleEditCancel">
       <a-form ref="editFormRef" :model="editForm" :rules="editFormRules" :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }">
+              :wrapper-col="{ span: 18 }">
         <a-form-item label="设备编号" name="id">
           <a-input v-model:value="editForm.id" placeholder="请输入设备编号" />
         </a-form-item>
@@ -186,9 +390,9 @@
 
     <!-- 设备记录编辑弹窗 -->
     <a-modal v-model:open="recordEditModalVisible" title="设备信息编辑-设备详情" width="600px" @ok="handleRecordEditSubmit"
-      @cancel="handleRecordEditCancel">
+             @cancel="handleRecordEditCancel">
       <a-form ref="recordEditFormRef" :model="recordEditForm" :rules="recordEditFormRules" :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }">
+              :wrapper-col="{ span: 18 }">
         <a-form-item label="设备编号" name="code">
           <a-input v-model:value="recordEditForm.code" placeholder="请输入设备编号" />
         </a-form-item>
@@ -239,67 +443,7 @@
       </a-form>
     </a-modal>
 
-    <!-- 设备列表区域 -->
-    <a-card title="设备列表" :bordered="false">
-      <!-- 搜索区域 -->
-      <div class="search-section" style="margin-bottom: 16px;">
-        <a-row :gutter="16" align="middle">
-          <a-col :span="4">
-            <a-input v-model:value="searchForm.deviceName" placeholder="设备名称/设备编号/设备类型/设备型号" allow-clear />
-          </a-col>
-          <a-col :span="3">
-            <a-select v-model:value="searchForm.deviceType" placeholder="设备类型" allow-clear style="width: 100%">
-              <a-select-option value="储能系统">储能系统</a-select-option>
-              <a-select-option value="逆变器">逆变器</a-select-option>
-              <a-select-option value="电池组">电池组</a-select-option>
-            </a-select>
-          </a-col>
-          <a-col :span="2">
-            <a-button type="primary" @click="handleSearch">
-              搜索
-            </a-button>
-          </a-col>
-          <a-col :span="15" style="text-align: right;">
-            <a-space>
-              <a-button @click="handleExport">导出设备信息</a-button>
-              <a-button @click="handleImport">导入设备信息</a-button>
-              <a-button type="primary" @click="showAddModal = true">
-                新增设备
-              </a-button>
-            </a-space>
-          </a-col>
-        </a-row>
-      </div>
 
-      <!-- 设备列表表格 -->
-      <a-table :columns="columns" :data-source="deviceList" :pagination="pagination" :loading="loading" row-key="id"
-        @change="handleTableChange" :scroll="{ x: 1200 }">
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ record.status }}
-            </a-tag>
-          </template>
-          <template v-else-if="column.key === 'protocol'">
-            <a-space>
-              <a-tag v-for="protocol in record.protocols" :key="protocol" color="blue">
-                {{ protocol }}
-              </a-tag>
-            </a-space>
-          </template>
-          <template v-else-if="column.key === 'action'">
-            <a-space>
-              <a-button type="link" size="small" @click="handleView(record)">
-                详情
-              </a-button>
-              <a-button type="link" size="small" @click="handleEditRecord(record)">
-                编辑
-              </a-button>
-            </a-space>
-          </template>
-        </template>
-      </a-table>
-    </a-card>
   </div>
 </template>
 
@@ -308,7 +452,12 @@ import { ref, reactive } from 'vue';
 import { message } from 'ant-design-vue';
 import { DesktopOutlined } from '@ant-design/icons-vue';
 import type { FormInstance } from 'ant-design-vue';
-
+import EditCard from "@/components/EditCard.vue";
+import deviceImg from "@/assets/images/plant/deviceImg.png"
+import BMS_img from "@/assets/images/plant/BMS_img.png"
+import EMS_img from "@/assets/images/plant/EMS_img.png"
+// import {useResetableRef} from "@/hooks/useResetable";
+const { t } = useI18n()
 // 响应式数据
 const loading = ref(false);
 const showAddModal = ref(false);
@@ -421,51 +570,7 @@ const pagination = reactive({
   showTotal: (total: number) => `共 ${total} 条记录`
 });
 
-// 设备列表数据
-const deviceList = ref([
-  {
-    id: 1,
-    deviceName: '储能系统ES900-XXX',
-    deviceType: '储能系统',
-    deviceCode: 'ES900001',
-    deviceModel: 'ES900-500',
-    status: '运行',
-    capacity: '500kWh',
-    voltage: '500V',
-    current: '500A',
-    protocols: ['Modbus', 'CAN'],
-    installDate: '2024-01-15',
-    location: 'A区1号机房'
-  },
-  {
-    id: 2,
-    deviceName: '储能系统ES900-YYY',
-    deviceType: '储能系统',
-    deviceCode: 'ES900002',
-    deviceModel: 'ES900-500',
-    status: '运行',
-    capacity: '500kWh',
-    voltage: '500V',
-    current: '500A',
-    protocols: ['Modbus', 'TCP/IP'],
-    installDate: '2024-01-16',
-    location: 'A区2号机房'
-  },
-  {
-    id: 3,
-    deviceName: '逆变器INV-001',
-    deviceType: '逆变器',
-    deviceCode: 'INV001',
-    deviceModel: 'INV-250',
-    status: '停机',
-    capacity: '250kW',
-    voltage: '380V',
-    current: '400A',
-    protocols: ['Modbus'],
-    installDate: '2024-01-20',
-    location: 'B区1号机房'
-  }
-]);
+
 
 // 表格列定义
 const columns = [
@@ -699,6 +804,89 @@ const getStatusColor = (status: string) => {
   return colorMap[status] || 'default';
 };
 
+const { filterParams, reset } = useResetableRef(
+  {
+    keyword: undefined,
+    customer_grade: undefined,
+    device_model: undefined,
+    software_version: undefined,
+    software_type: undefined,
+    province: undefined,
+    page: '1',
+    rows: '10',
+  },
+  'filterParams'
+)
+const filterOptions = [
+  {
+    type: 'search',
+    placeholder: t('plantFilterInfo'),
+    value: 'info'
+  },
+  {
+    type: 'select',
+    placeholder: t('customer_level'),
+    value: 'customer_level'
+  },
+  {
+    type: 'select',
+    placeholder: t('deviceType'),
+    value: 'device_type'
+  },
+  {
+    type: 'select',
+    placeholder: t('soft_version'),
+    value: 'soft_version'
+  },
+  {
+    type: 'select',
+    placeholder: t('province'),
+    value: 'province'
+  }
+]
+
+const filterSearch = () => {
+  // queryPlantList()
+}
+
+const reqParams = ref<any>({
+  rows: 20,
+  page: 1
+})
+
+const dataSource = ref([
+  {
+    id: '1',
+    code: '1',
+    model: '1',
+    type: '1',
+    sn: '1',
+    arm_version_main: '储能系统ES900-XXX',
+    arm_version_assist: '储能系统',
+    fpga_version: 'ES900001',
+    menu_version: 'ES900-500',
+    hmi_version: '运行',
+    key_part: ['Modbus', 'CAN'],
+    is_batch_conf: '500V',
+    ip_address: '500A'
+  },
+  {
+    id: '1',
+    code: '1',
+    model: '1',
+    type: '1',
+    sn: '1',
+    arm_version_main: '储能系统ES900-XXX',
+    arm_version_assist: '储能系统',
+    fpga_version: 'ES900001',
+    menu_version: 'ES900-500',
+    hmi_version: '运行',
+    key_part: ['Modbus', 'CAN'],
+    is_batch_conf: '500V',
+    ip_address: '500A'
+  }
+])
+const totalNumber = ref<number>(0)
 </script>
 
 <style scoped>
@@ -717,20 +905,11 @@ const getStatusColor = (status: string) => {
   gap: 16px;
 }
 
-.device-icon {
-  flex-shrink: 0;
-}
 
-.device-info-content {
-  flex: 1;
-}
 
-.device-info-content h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #262626;
-}
+
+
+
 
 .device-subtitle {
   margin: 0 0 8px 0;
@@ -739,8 +918,9 @@ const getStatusColor = (status: string) => {
 }
 
 .device-details {
-  color: #595959;
+  color: #222222;
   font-size: 12px;
+  line-height: 22px;
 }
 
 .device-status {
