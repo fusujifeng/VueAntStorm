@@ -2,7 +2,7 @@
   <div class="device-info">
     <!-- 设备卡片区域 -->
     <a-flex vertical gap="8">
-      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('string')}" :edit-button-text="$t('edit')">
+      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('string')}" :edit-button-text="'编辑'">
         <template #content>
           <a-flex justify="start" :gap="48" style="overflow-x: scroll">
             <!--          参数-->
@@ -66,7 +66,7 @@
 
         </template>
       </EditCard>
-      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('centralized')}" :edit-button-text="$t('edit')">
+      <EditCard title="设备总体情况" :editFunction="()=>{handleEditDevice('centralized')}" :edit-button-text="'编辑'">
         <template #content>
           <a-flex justify="start" :gap="48" style="overflow-x: scroll">
             <!--          参数-->
@@ -457,7 +457,8 @@ import deviceImg from "@/assets/images/plant/deviceImg.png"
 import BMS_img from "@/assets/images/plant/BMS_img.png"
 import EMS_img from "@/assets/images/plant/EMS_img.png"
 // import {useResetableRef} from "@/hooks/useResetable";
-const { t } = useI18n()
+// 注释掉未使用的useI18n
+// const { t } = useI18n()
 // 响应式数据
 const loading = ref(false);
 const showAddModal = ref(false);

@@ -54,9 +54,11 @@
             <a-avatar :src="geographicInfo" shape="square" :size="80" style="margin-right: 12px;" />
 
             <div>
-              <p>
-                山东省济南市章丘区文祖镇三德范村西南2公里处
-              </p>
+              <EllipsisText 
+                text="山东省济南市章丘区文祖镇三德范村西南2公里处" 
+                :width="300"
+                :custom-style="{ fontSize: '14px', color: '#333' }"
+              />
               <a-tag color="orange">大风预警</a-tag><span style="margin: 4px 0;">海拔3515米</span>
               <a-flex>
                 <a-space>
@@ -72,40 +74,75 @@
 
     <!-- 关键节点区块 -->
     <div class="info-block" style="min-width: 700px;">
-      <!-- 头部：标题 -->
+      <!-- 头部：标题 + 编辑按钮 -->
       <a-flex justify="space-between" align="center" class="block-header-container">
         <a-flex align="center" class="block-title">
           <div class="title-bar"></div>
           <div class="cardTitle">关键节点</div>
         </a-flex>
+        <a-button type="text" class="edit-btn">
+          <img :src="editSpan" alt="编辑" style="width: 16px; height: 16px;" />
+        </a-button>
       </a-flex>
-      <!-- 内容区：步骤条 -->
+      <!-- 内容区：自定义步骤条 -->
       <div class="content-area">
-        <a-steps :current="3" direction="horizontal" :items="[
-          {
-            title: '建站流程节点',
-            description: '2025/05/23 - 2025/05/23',
-            status: 'finish',
-          },
-          {
-            title: '设备发货',
-            description: '2025/05/23 - 2025/05/23',
-            status: 'finish',
-          },
-          {
-            title: '入场调试',
-            description: '2025/05/23 - 2025/05/23',
-            status: 'finish',
-          },
-          {
-            title: '并网测试',
-            description: '2025/05/23 - 2025/05/23',
-            status: 'process',
-          },
-          { title: '涉网试验', description: '-', status: 'wait' },
-          { title: '运行报告', description: '-', status: 'wait' },
-          { title: '验收报告', description: '-', status: 'wait' },
-        ]"></a-steps>
+        <div class="custom-steps">
+          <div class="step-item completed">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">建站流程节点</div>
+              <div class="step-date">2025/05/23 - 2025/05/23</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item completed">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">设备发货</div>
+              <div class="step-date">2025/05/23 - 2025/05/23</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item completed">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">入场调试</div>
+              <div class="step-date">2025/05/23 - 2025/05/23</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item active">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">并网测试</div>
+              <div class="step-date">2025/05/23 - 2025/05/23</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">涉网试验</div>
+              <div class="step-date">-</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">运行报告</div>
+              <div class="step-date">-</div>
+            </div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle">●</div>
+            <div class="step-content">
+              <div class="step-title">验收报告</div>
+              <div class="step-date">-</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -267,7 +304,7 @@
       </template>
       <a-form ref="formRef" :model="basicInfoFormState" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }"
         :colon="false" layout="vertical" :scrollToFirstError="true" class="basic-info-form">
-        
+
         <!-- 电站名称 -->
         <a-form-item label="电站名称" name="name" :rules="[
           { required: true, message: '请输入电站名称' },
@@ -316,8 +353,8 @@
           { required: true, message: '请输入电站容量' },
           { type: 'number', min: 0, max: 10000000, message: '电站容量范围在0到10000000之间' }
         ]">
-          <a-input-number :controls="false" v-model:value="basicInfoFormState.plant_capacity" 
-            placeholder="请输入电站容量" style="width: 100%">
+          <a-input-number :controls="false" v-model:value="basicInfoFormState.plant_capacity" placeholder="请输入电站容量"
+            style="width: 100%">
             <template #addonAfter>
               <a-select v-model:value="basicInfoFormState.capacity_unit" style="width: 80px">
                 <a-select-option value="kW">kW</a-select-option>
@@ -335,8 +372,8 @@
         <a-form-item label="所属年度" name="belong_year" :rules="[
           { required: true, message: '请选择所属年度' }
         ]">
-          <a-date-picker v-model:value="basicInfoFormState.belong_year" picker="year" 
-            placeholder="请选择所属年度" style="width: 100%" />
+          <a-date-picker v-model:value="basicInfoFormState.belong_year" picker="year" placeholder="请选择所属年度"
+            style="width: 100%" />
         </a-form-item>
 
         <!-- 仅汇川设备 -->
@@ -577,8 +614,10 @@
         <a-form-item label="地理位置" name="address" :rules="[{ required: true, message: '请输入地理位置' }]">
           <a-input v-model:value="geoInfoFormState.address" placeholder="请输入地理位置" />
         </a-form-item>
-        <a-form-item label="海拔" name="elevation" :rules="[{ required: true, message: '请输入海拔' }, { pattern: /^\d+(\.\d+)?$/, message: '请输入有效的数字' }]">
-          <a-input-number v-model:value="geoInfoFormState.elevation" placeholder="请输入海拔" style="width: 100%" :precision="2" />
+        <a-form-item label="海拔" name="elevation"
+          :rules="[{ required: true, message: '请输入海拔' }, { pattern: /^\d+(\.\d+)?$/, message: '请输入有效的数字' }]">
+          <a-input-number v-model:value="geoInfoFormState.elevation" placeholder="请输入海拔" style="width: 100%"
+            :precision="2" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -598,8 +637,10 @@ import personPurple from '@/assets/images/plant/personPurple.png'
 import personBlueGreen from '@/assets/images/plant/personBlueGreen.png'
 import personOrange from '@/assets/images/plant/personOrange.png'
 import importantPart from '@/assets/images/plant/importantPart.png'
+import arrorRight from '@/assets/arrowRight.png'
 import editSpan from '@/assets/icons/aiopsSvg/editSpan.svg'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import EllipsisText from '@/components/EllipsisText.vue'
 import {
   editPlant,
   getPlantFactoryInfo,
@@ -1078,6 +1119,89 @@ a-button[type="text"] {
   background-color: #f5f5f5;
   color: #999;
   cursor: not-allowed;
+}
+
+/* 自定义步骤条样式 */
+.custom-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 20px 0;
+  overflow-x: auto;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  min-width: 100px;
+}
+
+.step-item:last-child .step-line {
+  display: none;
+}
+
+.step-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  margin-bottom: 8px;
+  z-index: 2;
+}
+
+.step-item.completed .step-circle {
+  background-color: #52c41a;
+  color: #52c41a;
+}
+
+.step-item.active .step-circle {
+  background-color: #1890ff;
+  color: #1890ff;
+}
+
+.step-content {
+  text-align: center;
+  max-width: 120px;
+}
+
+.step-title {
+  font-size: 12px;
+  color: #262626;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.step-date {
+  font-size: 11px;
+  color: #8c8c8c;
+  line-height: 1.2;
+}
+
+.step-line {
+  position: absolute;
+  top: 6px;
+  left: calc(50% + 6px);
+  right: calc(-50% + 6px);
+  height: 1px;
+  background-color: #d9d9d9;
+  z-index: 1;
+}
+
+.step-item.completed .step-line {
+  background-color: #52c41a;
+}
+
+.step-item.active .step-line {
+  background: linear-gradient(to right, #52c41a 0%, #d9d9d9 100%);
 }
 
 .plan-form-wrapper .ant-select {
