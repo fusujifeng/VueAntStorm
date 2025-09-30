@@ -22,8 +22,8 @@ html, body {
 }
 
 #app {
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 /* 滚动条样式 */

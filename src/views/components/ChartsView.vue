@@ -56,7 +56,7 @@
             <div>
               <EllipsisText 
                 text="山东省济南市章丘区文祖镇三德范村西南2公里处" 
-                :width="300"
+                :width="100"
                 :custom-style="{ fontSize: '14px', color: '#333' }"
               />
               <a-tag color="orange">大风预警</a-tag><span style="margin: 4px 0;">海拔3515米</span>

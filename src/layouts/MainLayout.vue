@@ -10,9 +10,58 @@
         v-model:openKeys="openKeys"
         mode="inline"
         theme="dark"
-        :items="menuItems"
         @click="handleMenuClick"
-      />
+      >
+        <a-menu-item key="dashboard">
+          <dashboard-outlined />
+          <span>仪表盘</span>
+        </a-menu-item>
+        
+        <a-menu-item key="deviceInfo">
+          <desktop-outlined />
+          <span>设备信息</span>
+        </a-menu-item>
+        
+        <a-menu-item key="businessInfo">
+          <table-outlined />
+          <span>商业信息</span>
+        </a-menu-item>
+        
+        <a-menu-item key="create-plant-station">
+          <plus-outlined />
+          <span>创建电站</span>
+        </a-menu-item>
+        
+        <a-menu-item key="weather-demo">
+          <cloud-outlined />
+          <span>天气查询</span>
+        </a-menu-item>
+        
+        <a-menu-item key="modal-demo">
+          <table-outlined />
+          <span>模态框组件</span>
+        </a-menu-item>
+        
+        <a-menu-item key="composition-api-demo">
+          <code-outlined />
+          <span>Vue3组合式API</span>
+        </a-menu-item>
+        
+        <a-menu-item key="form-modal-demo">
+          <form-outlined />
+          <span>表单模态框</span>
+        </a-menu-item>
+        
+        <a-menu-item key="log-index">
+          <table-outlined />
+          <span>日志列表</span>
+        </a-menu-item>
+        
+        <a-menu-item key="docs">
+          <file-text-outlined />
+          <span>文档</span>
+        </a-menu-item>
+      </a-menu>
     </a-layout-sider>
 
     <a-layout>
@@ -78,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, h } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
   MenuFoldOutlined,
@@ -90,99 +139,50 @@ import {
   TableOutlined,
   FormOutlined,
   FileTextOutlined,
-  DesktopOutlined
+  DesktopOutlined,
+  PlusOutlined,
+  CloudOutlined,
+  CodeOutlined
 } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
 
 const router = useRouter()
 const route = useRoute()
 
 const collapsed = ref<boolean>(false)
 const selectedKeys = ref<string[]>(['dashboard'])
-const openKeys = ref<string[]>(['components'])
-
-// 菜单项配置
-const menuItems: MenuProps['items'] = [
-  {
-    key: 'dashboard',
-    icon: () => h(DashboardOutlined),
-    label: '仪表盘',
-    title: '仪表盘'
-  },
-  {
-    key: 'components',
-    icon: () => h(TableOutlined),
-    label: '组件展示',
-    title: '组件展示',
-    children: [
-      {
-        key: 'table',
-        label: '表格组件',
-        title: '表格组件'
-      },
-      {
-        key: 'form',
-        icon: () => h(FormOutlined),
-        label: '表单组件',
-        title: '表单组件'
-      },
-      {
-        key: 'charts',
-        label: '图表组件',
-        title: '图表组件'
-      },
-      {
-        key: 'businessInfo',
-        label: '商业信息',
-        title: '商业信息'
-      }
-    ]
-  },
-  {
-    key: 'deviceInfo',
-    icon: () => h(DesktopOutlined),
-    label: '设备信息',
-    title: '设备信息'
-  },
-  {
-    key: 'docs',
-    icon: () => h(FileTextOutlined),
-    label: '文档',
-    title: '文档'
-  }
-]
+const openKeys = ref<string[]>([])
 
 // 面包屑导航
 const breadcrumbItems = computed(() => {
   const pathArray = route.path.split('/').filter(item => item)
   const breadcrumbs = [{ title: '首页', path: '/' }]
 
+  // 简化的面包屑映射
+  const breadcrumbMap: Record<string, string> = {
+    dashboard: '仪表盘',
+    components: '组件展示',
+    table: '表格组件',
+    form: '表单组件',
+    charts: '图表组件',
+    businessInfo: '商业信息',
+    'modal-demo': '模态框组件',
+    deviceInfo: '设备信息',
+    'create-plant-station': '创建电站',
+    'weather-demo': '天气查询',
+    docs: '文档'
+  }
+
   let currentPath = ''
   pathArray.forEach(path => {
     currentPath += `/${path}`
-    const menuItem = findMenuItemByKey(path)
-    if (menuItem) {
-      breadcrumbs.push({ title: menuItem.label || menuItem.title, path: currentPath })
+    const title = breadcrumbMap[path]
+    if (title) {
+      breadcrumbs.push({ title, path: currentPath })
     }
   })
 
   return breadcrumbs
 })
-
-// 查找菜单项
-function findMenuItemByKey(key: string): any {
-  function search(items: any[]): any {
-    for (const item of items) {
-      if (item.key === key) return item
-      if (item.children) {
-        const found = search(item.children)
-        if (found) return found
-      }
-    }
-    return null
-  }
-  return search(menuItems as any[])
-}
 
 // 菜单点击处理
 const handleMenuClick = ({ key }: { key: string }) => {
@@ -197,6 +197,14 @@ const handleMenuClick = ({ key }: { key: string }) => {
     docs: '/docs',
     businessInfo: '/businessInfo',
     deviceInfo: '/deviceInfo',
+    'create-plant-station': '/create-plant-station',
+    'custom-steps-demo': '/custom-steps-demo',
+    'weather-demo': '/weather-demo',
+    'modal-demo': '/modal-demo',
+    'composition-api-demo': '/composition-api-demo',
+    'form-modal-demo': '/form-modal-demo',
+    'log-index': '/log-index',
+    'log-add': '/log-add',
   }
 
   const targetRoute = routeMap[key]

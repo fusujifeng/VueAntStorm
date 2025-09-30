@@ -57,6 +57,47 @@ const routes: RouteRecordRaw[] = [
         path: 'docs',
         name: 'Docs',
         component: () => import('../views/DocsView.vue')
+      },
+      {
+        path: 'create-plant-station',
+        name: 'CreatePlantStation',
+        component: () => import('../views/CreatePlantStation.vue')
+      },
+      {
+        path: 'custom-steps-demo',
+        name: 'CustomStepsDemo',
+        component: () => import('../views/CustomStepsDemo.vue')
+      },
+      {
+        path: 'weather-demo',
+        name: 'WeatherDemo',
+        component: () => import('../views/WeatherDemo.vue')
+      },
+      {
+        path: 'modal-demo',
+        name: 'ModalDemo',
+        component: () => import('../views/ModalDemo.vue')
+      },
+      {
+        path: 'composition-api-demo',
+        name: 'CompositionAPIDemo',
+        component: () => import('../views/CompositionAPIDemo.vue')
+      },
+      {
+        path: 'form-modal-demo',
+        name: 'FormModalDemo',
+        component: () => import('../views/FormModalDemo.vue')
+      }
+      ,
+      {
+        path: 'log-index',
+        name: 'LogIndex',
+        component: () => import('../views/logMgt/logIndex.vue')
+      },
+      {
+        path: 'log-add',
+        name: 'LogAdd',
+        component: () => import('../views/logMgt/addLog.vue')
       }
     ]
   },

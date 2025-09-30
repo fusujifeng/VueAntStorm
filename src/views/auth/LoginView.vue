@@ -84,8 +84,8 @@ interface FormState {
 }
 
 const formState = reactive<FormState>({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: 'admin',
   remember: true,
 })
 
@@ -96,7 +96,7 @@ const rules: Record<string, Rule[]> = {
   ],
   password: [
     { required: true, message: '请输入密码!', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' },
+    { min: 4, max: 20, message: '密码长度在 4 到 20 个字符', trigger: 'blur' },
   ],
 }
 
@@ -108,7 +108,7 @@ const onFinish = async (values: FormState) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     
     // 简单的模拟登录验证
-    if (values.username === 'admin' && values.password === '123456') {
+    if (values.username === 'admin' && values.password === 'admin') {
       // 保存token到localStorage
       localStorage.setItem('token', 'mock-jwt-token')
       localStorage.setItem('userInfo', JSON.stringify({
@@ -118,7 +118,7 @@ const onFinish = async (values: FormState) => {
       }))
       
       message.success('登录成功！')
-      router.push('/dashboard')
+      router.push('/')
     } else {
       message.error('用户名或密码错误！')
     }
