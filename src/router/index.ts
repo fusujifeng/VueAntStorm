@@ -95,8 +95,19 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/logMgt/logIndex.vue')
       },
       {
+        path: 'log-detail',
+        name: 'LogDetail',
+        component: () => import('../views/logMgt/logDetail.vue')
+      },
+      {
         path: 'log-add',
         name: 'LogAdd',
+        component: () => import('../views/logMgt/addLog.vue')
+      }
+      ,
+      {
+        path: 'log-edit',
+        name: 'LogEdit',
         component: () => import('../views/logMgt/addLog.vue')
       }
     ]

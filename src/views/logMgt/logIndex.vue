@@ -27,7 +27,7 @@
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" @click="viewDetail(record)">详情</a-button>
-              <a-button type="link" @click="handleProcess(record)">处理</a-button>
+              <a-button type="link" @click="editLog(record)">编辑</a-button>
             </a-space>
           </template>
         </template>
@@ -161,11 +161,11 @@ const onTableChange = (pag: any) => {
 }
 
 const viewDetail = (record: LogItem) => {
-  message.info(`查看 ${record.id}`)
+  router.push({ path: '/log-detail', query: { id: record.id } })
 }
 
-const handleProcess = (record: LogItem) => {
-  message.success(`处理 ${record.id} 成功`)
+const editLog = (record: LogItem) => {
+  router.push({ path: '/log-edit', query: { id: record.id } })
 }
 
 // 新建日志跳转在上方定义

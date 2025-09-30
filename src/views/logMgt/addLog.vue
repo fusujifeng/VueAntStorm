@@ -91,7 +91,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useModal } from '@/composables/useModal'
 
 interface TaskItem {
@@ -132,6 +133,10 @@ const form = reactive({
   remark: ''
 })
 
+// 根据路由区分新建或编辑
+const route = useRoute()
+const isEdit = computed(() => String(route.path).includes('log-edit'))
+
 // 今日任务项
 const statusOptions = [
   { label: '未完成', value: '未完成' },
@@ -143,10 +148,11 @@ const progressOptions = [
   { label: '100%', value: '100%' }
 ]
 
-const tasks = ref<TaskItem[]>([
+const sampleTasks: TaskItem[] = [
   { id: 't1', name: '全站信道巡检调试记录（表链）', status: '未完成', progress: '60%', date: undefined },
   { id: 't2', name: '试运行初步运行报告的编写', status: '已完成', progress: '60%', date: undefined }
-])
+]
+const tasks = ref<TaskItem[]>(isEdit.value ? [...sampleTasks] : [])
 
 const taskForm = reactive<TaskItem>({ id: '', name: '', status: '未完成', progress: '60%', date: undefined })
 const taskModal = useModal({})
@@ -160,7 +166,7 @@ const addTask = () => {
 const removeTask = (idx: number) => tasks.value.splice(idx, 1)
 
 // 设备故障记录
-const deviceIssues = ref<DeviceIssueItem[]>([
+const sampleDeviceIssues: DeviceIssueItem[] = [
   {
     id: 'd1',
     sn: '01900094ESC0000E5900-XXX',
@@ -176,7 +182,8 @@ const deviceIssues = ref<DeviceIssueItem[]>([
     itrNo: 'OR-0000...',
     rdInvolved: '是'
   }
-])
+]
+const deviceIssues = ref<DeviceIssueItem[]>(isEdit.value ? [...sampleDeviceIssues] : [])
 
 const deviceIssueColumns = [
   { title: '设备SN码', dataIndex: 'sn', key: 'sn', width: 220 },
@@ -221,10 +228,11 @@ const addDeviceIssue = () => {
 }
 
 // 当日费用记录
-const expenses = ref<ExpenseItem[]>([
+const sampleExpenses: ExpenseItem[] = [
   { id: 'e1', owner: 'xxx', type: '住宿', detail: '-', amount: 160, remark: 'XXXXXXXXXX' },
   { id: 'e2', owner: 'xxx', type: '交通', detail: '打车', amount: 160, remark: 'XXXXXXXXXX' }
-])
+]
+const expenses = ref<ExpenseItem[]>(isEdit.value ? [...sampleExpenses] : [])
 const expenseColumns = [
   { title: '费用产生人', dataIndex: 'owner', key: 'owner', width: 140 },
   { title: '费用类型', dataIndex: 'type', key: 'type', width: 140 },
