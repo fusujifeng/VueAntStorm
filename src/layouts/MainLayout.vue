@@ -56,6 +56,11 @@
           <table-outlined />
           <span>日志列表</span>
         </a-menu-item>
+
+        <a-menu-item key="workorder-index">
+          <table-outlined />
+          <span>工单管理</span>
+        </a-menu-item>
         
         <a-menu-item key="docs">
           <file-text-outlined />
@@ -169,7 +174,8 @@ const breadcrumbItems = computed(() => {
     deviceInfo: '设备信息',
     'create-plant-station': '创建电站',
     'weather-demo': '天气查询',
-    docs: '文档'
+    docs: '文档',
+    'workorder-index': '工单管理'
   }
 
   let currentPath = ''
@@ -205,6 +211,7 @@ const handleMenuClick = ({ key }: { key: string }) => {
     'form-modal-demo': '/form-modal-demo',
     'log-index': '/log-index',
     'log-add': '/log-add',
+    'workorder-index': '/workorder-index',
   }
 
   const targetRoute = routeMap[key]

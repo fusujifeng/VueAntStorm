@@ -23,12 +23,21 @@
         :scroll="{ x: 'max-content' }"
         @change="onTableChange"
       >
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, text }">
           <template v-if="column.key === 'actions'">
             <a-space>
               <a-button type="link" @click="viewDetail(record)">详情</a-button>
               <a-button type="link" @click="editLog(record)">编辑</a-button>
             </a-space>
+          </template>
+          <template v-else-if="column.key === 'id'">
+            <EllipsisText :text="text" :width="140" />
+          </template>
+          <template v-else-if="column.key === 'station'">
+            <EllipsisText :text="text" :width="180" />
+          </template>
+          <template v-else-if="column.key === 'workOrder'">
+            <EllipsisText :text="text" :width="140" />
           </template>
         </template>
       </a-table>
@@ -44,6 +53,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import AdvancedSearch from '@/components/AdvancedSearch.vue'
 import { useRouter } from 'vue-router'
+import EllipsisText from '@/components/EllipsisText.vue'
 
 interface LogItem {
   id: string
@@ -178,5 +188,13 @@ onMounted(() => {
 <style scoped>
 .log-index-page {
   padding: 12px 0;
+  min-width: 1400px;
+  overflow-x: auto;
+}
+/* 表头单行显示 */
+.log-index-page :deep(.ant-table-thead th) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

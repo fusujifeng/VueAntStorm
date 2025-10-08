@@ -110,6 +110,45 @@ const routes: RouteRecordRaw[] = [
         name: 'LogEdit',
         component: () => import('../views/logMgt/addLog.vue')
       }
+      ,
+      {
+        path: 'workorder-index',
+        name: 'WorkOrderIndex',
+        component: () => import('../views/workOrderMgt/workOrderIndex.vue')
+      }
+      ,
+      {
+        path: 'workorder-detail/:id',
+        name: 'WorkOrderDetail',
+        component: () => import('../views/workOrderMgt/components/workOrderDetail.vue'),
+        children: [
+          {
+            path: '',
+            name: 'WorkOrderDetailBasic',
+            component: () => import('../views/workOrderMgt/components/basicInfo.vue')
+          },
+          {
+            path: 'basic',
+            name: 'WorkOrderDetailBasicExplicit',
+            component: () => import('../views/workOrderMgt/components/basicInfo.vue')
+          },
+          {
+            path: 'work-content',
+            name: 'WorkOrderDetailWorkContent',
+            component: () => import('../views/workOrderMgt/components/workContent.vue')
+          },
+          {
+            path: 'fault-summary',
+            name: 'WorkOrderDetailFault',
+            component: () => import('../views/workOrderMgt/components/faultInfo.vue')
+          },
+          {
+            path: 'fee-summary',
+            name: 'WorkOrderDetailFee',
+            component: () => import('../views/workOrderMgt/components/costInfo.vue')
+          }
+        ]
+      }
     ]
   },
   {

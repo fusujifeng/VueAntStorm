@@ -91,9 +91,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, h } from 'vue'
 import { useRoute } from 'vue-router'
 import { useModal } from '@/composables/useModal'
+import EllipsisText from '@/components/EllipsisText.vue'
 
 interface TaskItem {
   id: string
@@ -186,18 +187,18 @@ const sampleDeviceIssues: DeviceIssueItem[] = [
 const deviceIssues = ref<DeviceIssueItem[]>(isEdit.value ? [...sampleDeviceIssues] : [])
 
 const deviceIssueColumns = [
-  { title: '设备SN码', dataIndex: 'sn', key: 'sn', width: 220 },
-  { title: '设备型号', dataIndex: 'model', key: 'model', width: 100 },
-  { title: '设备部件号', dataIndex: 'partNo', key: 'partNo', width: 160 },
+  { title: '设备SN码', dataIndex: 'sn', key: 'sn', width: 220, customRender: ({ text }: any) => h(EllipsisText, { text, width: 200 }) },
+  { title: '设备型号', dataIndex: 'model', key: 'model', width: 100, customRender: ({ text }: any) => h(EllipsisText, { text, width: 100 }) },
+  { title: '设备部件号', dataIndex: 'partNo', key: 'partNo', width: 160, customRender: ({ text }: any) => h(EllipsisText, { text, width: 160 }) },
   { title: '设备数量', dataIndex: 'model', key: 'qty', width: 100, customRender: () => '1' },
-  { title: '部件名称', dataIndex: 'deviceName', key: 'deviceName', width: 140 },
+  { title: '部件名称', dataIndex: 'deviceName', key: 'deviceName', width: 140, customRender: ({ text }: any) => h(EllipsisText, { text, width: 140 }) },
   { title: '当前状态', dataIndex: 'currentStatus', key: 'status', width: 120 },
-  { title: '故障原因', dataIndex: 'reason', key: 'reason', width: 140 },
+  { title: '故障原因', dataIndex: 'reason', key: 'reason', width: 140, customRender: ({ text }: any) => h(EllipsisText, { text, width: 140 }) },
   { title: '发生时间', dataIndex: 'happenTime', key: 'happenTime', width: 140 },
   { title: '发生阶段', dataIndex: 'stage', key: 'stage', width: 120 },
   { title: '需要分析报告', dataIndex: 'needReport', key: 'needReport', width: 140 },
   { title: '关联ITR流程', dataIndex: 'itrFlow', key: 'itrFlow', width: 140 },
-  { title: 'ITR编号', dataIndex: 'itrNo', key: 'itrNo', width: 140 },
+  { title: 'ITR编号', dataIndex: 'itrNo', key: 'itrNo', width: 140, customRender: ({ text }: any) => h(EllipsisText, { text, width: 140 }) },
   { title: '研发是否介入', dataIndex: 'rdInvolved', key: 'rdInvolved', width: 140 }
 ]
 
@@ -234,11 +235,11 @@ const sampleExpenses: ExpenseItem[] = [
 ]
 const expenses = ref<ExpenseItem[]>(isEdit.value ? [...sampleExpenses] : [])
 const expenseColumns = [
-  { title: '费用产生人', dataIndex: 'owner', key: 'owner', width: 140 },
+  { title: '费用产生人', dataIndex: 'owner', key: 'owner', width: 140, customRender: ({ text }: any) => h(EllipsisText, { text, width: 140 }) },
   { title: '费用类型', dataIndex: 'type', key: 'type', width: 140 },
-  { title: '费用详细', dataIndex: 'detail', key: 'detail', width: 160 },
+  { title: '费用详细', dataIndex: 'detail', key: 'detail', width: 160, customRender: ({ text }: any) => h(EllipsisText, { text, width: 160 }) },
   { title: '费用金额', dataIndex: 'amount', key: 'amount', width: 140, customRender: ({ text }: any) => `${text} ￥` },
-  { title: '备注', dataIndex: 'remark', key: 'remark' }
+  { title: '备注', dataIndex: 'remark', key: 'remark', customRender: ({ text }: any) => h(EllipsisText, { text, width: 160 }) }
 ]
 const expenseForm = reactive({ owner: '', type: '', detail: '', amount: 0 })
 const expenseModal = useModal({})
@@ -259,6 +260,8 @@ const addExpense = () => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 1400px;
+  overflow-x: auto;
 }
 .section {
   background: #fff;
@@ -282,5 +285,11 @@ const addExpense = () => {
   align-items: center;
   gap: 12px;
   flex: 0 0 calc(50% - 6px);
+}
+/* 表头单行显示 */
+.add-log-page :deep(.ant-table-thead th) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

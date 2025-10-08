@@ -77,9 +77,12 @@
         <span class="section-title">设备故障记录</span>
       </a-flex>
       <a-table :data-source="deviceIssues" :columns="deviceIssueColumns" row-key="id" :pagination="false">
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, text }">
           <template v-if="column.key === 'status'">
             <a-tag color="green">已探测</a-tag>
+          </template>
+          <template v-else-if="['sn','model','partNo','deviceName','reason','itrNo'].includes(column.key)">
+            <EllipsisText :text="text" :width="160" />
           </template>
         </template>
       </a-table>
@@ -90,7 +93,13 @@
       <a-flex align="center" justify="space-between" class="section-header">
         <span class="section-title">当日费用记录</span>
       </a-flex>
-      <a-table :data-source="expenses" :columns="expenseColumns" row-key="id" :pagination="false" />
+      <a-table :data-source="expenses" :columns="expenseColumns" row-key="id" :pagination="false">
+        <template #bodyCell="{ column, text }">
+          <template v-if="['owner','detail','remark'].includes(column.key)">
+            <EllipsisText :text="text" :width="160" />
+          </template>
+        </template>
+      </a-table>
     </section>
 
     <!-- 异常备注 -->
@@ -143,6 +152,7 @@ import { reactive, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useModal } from '@/composables/useModal'
 import { message } from 'ant-design-vue'
+import EllipsisText from '@/components/EllipsisText.vue'
 
 const route = useRoute()
 const id = computed(() => String(route.params.id || route.query.id || ''))
@@ -226,6 +236,8 @@ const openReject = () => rejectModal.open()
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 1400px;
+  overflow-x: auto;
 }
 .section {
   background: #fff;
@@ -244,4 +256,10 @@ const openReject = () => rejectModal.open()
 .task-title { font-weight: 600; margin-bottom: 4px; }
 .task-meta { color: #666; }
 .actions { text-align: right; }
+/* 表头单行显示 */
+.log-detail-page :deep(.ant-table-thead th) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

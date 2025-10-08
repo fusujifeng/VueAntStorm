@@ -19,6 +19,7 @@
     "ant-design-vue": "^4.2.6",
     "less": "^4.4.1",
     "pinia": "^3.0.3",
+    "sortablejs": "^1.15.6",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },
