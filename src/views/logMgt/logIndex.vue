@@ -11,10 +11,29 @@
       />
       <a-button type="primary" @click="goAddLog">新建日志</a-button>
     </a-flex>
+<a-card title="上传进度条">
 
+  <a-upload
+    v-model:file-list="fileList"
+    name="file"
+    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+    @change="handleChange"
+    percent
+  >
+    <a-space>
+      <a-button>
+        <upload-outlined></upload-outlined>
+        Click to Upload
+      </a-button>
+      <a-progress type="dashboard" :percent="uploadProgress" :size="20" />
+      <a-progress type="dashboard" :percent="uploadProgress" size="small" />
+    </a-space>
+  </a-upload>
+
+</a-card>
     <!-- 表格区域 -->
     <a-card :bordered="false">
-      <my-table
+      <a-table
         row-key="id"
         :data-source="dataSource"
         :columns="columns"
@@ -22,6 +41,7 @@
         :pagination="pagination"
         :scroll="{ x: 'max-content' }"
         @change="onTableChange"
+        :row-selection="rowSelection"
       >
         <template #bodyCell="{ column, record, text }">
           <template v-if="column.key === 'actions'">
@@ -40,12 +60,12 @@
             <EllipsisText :text="text" :width="140" />
           </template>
         </template>
-      </my-table>
+      </a-table>
     </a-card>
 
-    
+
   </div>
-  
+
 </template>
 
 <script setup lang="ts">
@@ -61,6 +81,21 @@ interface LogItem {
   workOrder: string
   createdAt: string
 }
+
+const uploadProgress=ref(0)
+const handleChange = (info: UploadChangeParam) => {
+  if (info.file.status !== 'uploading') {
+    console.log(info.file, info.fileList);
+  }
+  if (info.file.status === 'done') {
+    message.success(`${info.file.name} file uploaded successfully`);
+  } else if (info.file.status === 'error') {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+
+const fileList = ref([]);
+
 
 const loading = ref(false)
 const searchParams = ref<Record<string, any>>({})
@@ -98,7 +133,7 @@ const goAddLog = () => router.push('/log-add')
 // 模拟后端数据
 const buildMockData = (): LogItem[] => {
   const stations = ['山东泰达电站', '青岛海上风电场', '临沂新能示范电站']
-  
+
   const list: LogItem[] = Array.from({ length: 57 }).map((_, i) => {
     const date = new Date(Date.now() - i * 86400000)
     const yyyy = date.getFullYear()
@@ -178,6 +213,12 @@ const editLog = (record: LogItem) => {
   router.push({ path: '/log-edit', query: { id: record.id } })
 }
 
+const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  },
+
+};
 // 新建日志跳转在上方定义
 
 onMounted(() => {
