@@ -14,7 +14,7 @@
 
     <!-- 表格区域 -->
     <a-card :bordered="false">
-      <a-table
+      <my-table
         row-key="id"
         :data-source="dataSource"
         :columns="columns"
@@ -40,7 +40,7 @@
             <EllipsisText :text="text" :width="140" />
           </template>
         </template>
-      </a-table>
+      </my-table>
     </a-card>
 
     
